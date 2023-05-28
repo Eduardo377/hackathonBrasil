@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { string, z } from "zod";
 import { prisma } from "../lib/prisma";
-import { request } from "http";
 
 export async function serverRoutes(app: FastifyInstance) {
   app.get("/user", async () => {
@@ -19,10 +18,8 @@ export async function serverRoutes(app: FastifyInstance) {
       };
     });
   });
-  app.get("/login", async () => {
-    const user = await prisma.user.findMany();
-
-    return user;
+  app.get("/", async () => {
+    return "Hello World!";
   });
 
   app.get("/user/:id", async (request) => {
@@ -46,19 +43,30 @@ export async function serverRoutes(app: FastifyInstance) {
       login : string(),
       password : string(),
       email : string(),
-      
+      cpf : string(),
+      dataNasc : z.coerce.date(),
     });
-    const { login, email, name, password } = bodySchema.parse(request.body)
+    const {
+      login,
+      email,
+      name,
+      password,
+      cpf,
+      dataNasc,
+    } = bodySchema.parse(request.body)
 
-    const users = await prisma.user.create({
+    await prisma.user.create({
       data: {
         login,
         email,
         name,
         password,
+        cpf,
+        dataNasc,
       }
     })
-    return users
+    const userCreatorSuccess = {login, email, name, cpf, dataNasc}
+    return userCreatorSuccess
   });
 
   app.put("/user/:id", async (request) => {
@@ -69,14 +77,22 @@ export async function serverRoutes(app: FastifyInstance) {
     const { id } = paramsSchema.parse(request.params)
 
     const bodySchema = z.object({
-        name : string(),
-        login : string(),
-        password : string(),
-        email : string(),
-        
+      name : string(),
+      login : string(),
+      password : string(),
+      email : string(),
+      cpf : string(),
+      dataNasc : z.coerce.date(),
       });
 
-      const {name, login, password, email} = bodySchema.parse(request.body)
+      const {
+        name,
+        login,
+        password,
+        email,
+        cpf,
+        dataNasc
+      } = bodySchema.parse(request.body)
       
     const user = await prisma.user.update({
           where: {
@@ -86,7 +102,9 @@ export async function serverRoutes(app: FastifyInstance) {
             name,
             login,
             password,
-            email
+            email,
+            cpf,
+            dataNasc
           }
         });
         return user;
@@ -106,3 +124,5 @@ export async function serverRoutes(app: FastifyInstance) {
         });
   });
 }
+
+

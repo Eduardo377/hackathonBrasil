@@ -13,8 +13,47 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  login     String
-  email     String   @unique
-  name      String?
-  password  String
+
+  name     String?
+  email    String   @unique
+  login    String
+  password String
+  cpf      String   @unique
+  dataNasc DateTime
+
+  profile    Profile[]
+  cursos     Cursos[]
+  cursosAcao CursosAcao[]
+}
+
+model Profile {
+  profileId        String   @id @default(uuid())
+  createdAtProfile DateTime @default(now())
+
+  bio         String
+  metaEstudos String
+  qtdExp      Int
+
+  user User @relation(fields: [profileId], references: [id])
+}
+
+model Cursos {
+  cursoId         String   @id @default(uuid())
+  createdAtCursos DateTime @default(now())
+
+  numAulas       Int
+  numProvas      String
+  temCertificado Boolean @default(false)
+
+  user User @relation(fields: [cursoId], references: [id])
+}
+
+model CursosAcao {
+  acaoId          String   @id @default(uuid())
+  createdAtCursos DateTime @default(now())
+
+  titulo     String
+  nivelCurso String
+  User       User?   @relation(fields: [acaoId], references: [id])
+  userId     String?
 }

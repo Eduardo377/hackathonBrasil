@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "builds": [{
+        "src": "src/server.ts",
+        "use": "vencel/node"
+    }],
+    "routes": [{
+        "src": "/(.*)",
+        "use": "/"
+    }]
+}

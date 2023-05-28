@@ -5,18 +5,15 @@ import { serverRoutes } from "./routes/server";
 import fastifyJwt from "@fastify/jwt";
 
 const app = fastify();
-
-app.register(cors, {
-  origin: true,
-})
-
 app.register(fastifyJwt, {
   secret: 'kfsdjfkldsflkdsngklvazfldsçgnmkkodsaofjxçl',
 })
-
+app.register(cors, {
+  origin: true,
+})
 app.register(serverRoutes);
 app
-  .listen({
+.listen({
     port: 3333,
     host: "0.0.0.0",
   })
