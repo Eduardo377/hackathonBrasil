@@ -86,7 +86,10 @@ var require_package = __commonJS({
       },
       engines: {
         node: ">=12"
-      }
+      },
+      _resolved: "https://registry.npmjs.org/dotenv/-/dotenv-16.0.3.tgz",
+      _integrity: "sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==",
+      _from: "dotenv@16.0.3"
     };
   }
 });
