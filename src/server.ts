@@ -3,6 +3,7 @@ import fastify from "fastify";
 import cors from '@fastify/cors'
 import { serverRoutes } from "./routes/server";
 import fastifyJwt from "@fastify/jwt";
+import { env } from "./env";
 
 const app = fastify();
 app.register(fastifyJwt, {
@@ -11,12 +12,14 @@ app.register(fastifyJwt, {
 app.register(cors, {
   origin: true,
 })
+
+
 app.register(serverRoutes);
 app
 .listen({
-    port: 3333,
+    port: env.API_PORT,
     host: "0.0.0.0",
   })
   .then(() => {
-    console.log("🚀 HTTP server running on port http://localhost:3333");
+    console.log(`🚀 HTTP server running on port http://localhost:${env.API_PORT}`);
   });

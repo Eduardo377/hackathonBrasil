@@ -18,9 +18,6 @@ export async function serverRoutes(app: FastifyInstance) {
       };
     });
   });
-  app.get("/", async () => {
-    return "Hello World!";
-  });
 
   app.get("/user/:id", async (request) => {
     const paramsSchema = z.object({

@@ -3,16 +3,15 @@
         "sourceMap": true,
         "outDir": "dist",
         "strict": true,
-        "lib": ["esnext"],
+        "lib": [
+            "esnext"
+        ],
         "esModuleInterop": true
     },
-    "name": "server",
-    "version": "1.0.0",
-    "main": "index.js",
     "name": "hackathonBrasil",
     "version": "1.0.0",
-    "description": "",
     "main": "src/server.ts",
+    "description": "",
     "type": "module",
     "engines": {
         "node": "14.x"
@@ -49,6 +48,5 @@
         "fastify": "^4.17.0",
         "init": "^0.1.2",
         "zod": "^3.21.4"
-    },
-    "description": ""
+    }
 }
