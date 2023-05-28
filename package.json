@@ -9,6 +9,7 @@
     "description": "",
 
     "type": "module",
+
     "scripts": {
 
         "prebuild": "tsc --noEmit",
@@ -82,3 +83,4 @@
     }
 
 }
+
