@@ -1,12 +1,14 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -16,14 +18,7 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/dotenv/package.json
 var require_package = __commonJS({
@@ -210,6 +205,13 @@ var require_cli_options = __commonJS({
   }
 });
 
+// src/infra/env.ts
+var env_exports = {};
+__export(env_exports, {
+  env: () => env
+});
+module.exports = __toCommonJS(env_exports);
+
 // node_modules/dotenv/config.js
 (function() {
   require_main().config(
@@ -220,19 +222,6 @@ var require_cli_options = __commonJS({
     )
   );
 })();
-
-// src/server.ts
-var import_fastify = __toESM(require("fastify"), 1);
-var import_cors = __toESM(require("@fastify/cors"), 1);
-
-// src/routes/server.ts
-var import_zod2 = require("zod");
-
-// src/lib/prisma.ts
-var import_client = require("@prisma/client");
-var prisma = new import_client.PrismaClient({
-  log: ["query"]
-});
 
 // src/infra/env.ts
 var import_zod = require("zod");
@@ -246,130 +235,7 @@ if (!getEnv.success) {
   throw new Error(errorMessage);
 }
 var env = getEnv.data;
-
-// src/routes/server.ts
-async function serverRoutes(app2) {
-  app2.get("/", async () => {
-    return `Hello World \u{1F680} HTTP server running on port http://localhost:${env.API_PORT}`;
-  });
-  app2.get("/user", async () => {
-    const users = await prisma.user.findMany({
-      orderBy: {
-        createdAt: "asc"
-      }
-    });
-    return users.map((user) => {
-      return {
-        id: user.id,
-        name: user.name,
-        login: user.login
-      };
-    });
-  });
-  app2.get("/user/:id", async (request) => {
-    const paramsSchema = import_zod2.z.object({
-      id: (0, import_zod2.string)().uuid()
-    });
-    const { id } = paramsSchema.parse(request.params);
-    const user = await prisma.user.findUniqueOrThrow({
-      where: {
-        id
-      }
-    });
-    return user;
-  });
-  app2.post("/user", async (request) => {
-    const bodySchema = import_zod2.z.object({
-      name: (0, import_zod2.string)(),
-      login: (0, import_zod2.string)(),
-      password: (0, import_zod2.string)(),
-      email: (0, import_zod2.string)(),
-      cpf: (0, import_zod2.string)(),
-      dataNasc: import_zod2.z.coerce.date()
-    });
-    const {
-      login,
-      email,
-      name,
-      password,
-      cpf,
-      dataNasc
-    } = bodySchema.parse(request.body);
-    await prisma.user.create({
-      data: {
-        login,
-        email,
-        name,
-        password,
-        cpf,
-        dataNasc
-      }
-    });
-    const userCreatorSuccess = { login, email, name, cpf, dataNasc };
-    return userCreatorSuccess;
-  });
-  app2.put("/user/:id", async (request) => {
-    const paramsSchema = import_zod2.z.object({
-      id: (0, import_zod2.string)().uuid()
-    });
-    const { id } = paramsSchema.parse(request.params);
-    const bodySchema = import_zod2.z.object({
-      name: (0, import_zod2.string)(),
-      login: (0, import_zod2.string)(),
-      password: (0, import_zod2.string)(),
-      email: (0, import_zod2.string)(),
-      cpf: (0, import_zod2.string)(),
-      dataNasc: import_zod2.z.coerce.date()
-    });
-    const {
-      name,
-      login,
-      password,
-      email,
-      cpf,
-      dataNasc
-    } = bodySchema.parse(request.body);
-    const user = await prisma.user.update({
-      where: {
-        id
-      },
-      data: {
-        name,
-        login,
-        password,
-        email,
-        cpf,
-        dataNasc
-      }
-    });
-    return user;
-  });
-  app2.delete("/user/:id", async (request) => {
-    const paramsSchema = import_zod2.z.object({
-      id: (0, import_zod2.string)().uuid()
-    });
-    const { id } = paramsSchema.parse(request.params);
-    await prisma.user.delete({
-      where: {
-        id
-      }
-    });
-  });
-}
-
-// src/server.ts
-var import_jwt = __toESM(require("@fastify/jwt"), 1);
-var app = (0, import_fastify.default)();
-app.register(import_jwt.default, {
-  secret: "kfsdjfkldsflkdsngklvazflds\xE7gnmkkodsaofjx\xE7l"
-});
-app.register(import_cors.default, {
-  origin: true
-});
-app.register(serverRoutes);
-app.listen({
-  port: env.API_PORT,
-  host: "0.0.0.0"
-}).then(() => {
-  console.log(`\u{1F680} HTTP server running on port http://localhost:${env.API_PORT}`);
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  env
 });
