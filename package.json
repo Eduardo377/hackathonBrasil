@@ -6,7 +6,7 @@
     "description": "",
     "type": "module",
     "engines": {
-        "node": "12.x"
+        "node": "18.x"
     },
     "scripts": {
         "prebuild": "tsc --noEmit",
