@@ -1,8 +1,14 @@
 import { FastifyInstance } from "fastify";
 import { string, z } from "zod";
 import { prisma } from "../lib/prisma";
+import { env } from "../infra/env";
 
 export async function serverRoutes(app: FastifyInstance) {
+
+  app.get("/", async () => {
+    return `Hello World 🚀 HTTP server running on port http://localhost:${env.API_PORT}`;
+  })
+
   app.get("/user", async () => {
     const users = await prisma.user.findMany({
       orderBy:{

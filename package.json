@@ -17,6 +17,8 @@
         "node": "14.x"
     },
     "scripts": {
+        "prebuild": "tsc --noEmit",
+        "build": "tsup src --out-dir build",
         "start": "npm run dev",
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "tsx watch src/server.ts",
@@ -37,6 +39,7 @@
         "eslint-plugin-promise": "^6.1.1",
         "prisma": "^4.14.1",
         "ts-node": "^10.9.1",
+        "tsup": "^6.7.0",
         "tsx": "^3.12.7",
         "typescript": "^5.0.4"
     },
