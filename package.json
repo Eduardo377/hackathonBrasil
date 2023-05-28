@@ -1,20 +1,12 @@
 {
-    "compilerOptions": {
-        "sourceMap": true,
-        "outDir": "dist",
-        "strict": true,
-        "lib": [
-            "esnext"
-        ],
-        "esModuleInterop": true
-    },
+
     "name": "hackathonBrasil",
     "version": "1.0.0",
     "main": "src/server.ts",
     "description": "",
     "type": "module",
     "engines": {
-        "node": "14.x"
+        "node": "12.x"
     },
     "scripts": {
         "prebuild": "tsc --noEmit",
