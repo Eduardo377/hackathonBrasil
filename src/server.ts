@@ -2,11 +2,16 @@ import "dotenv/config";
 import fastify from "fastify";
 import cors from '@fastify/cors'
 import { serverRoutes } from "./routes/server";
+import fastifyJwt from "@fastify/jwt";
 
 const app = fastify();
 
 app.register(cors, {
   origin: true,
+})
+
+app.register(fastifyJwt, {
+  secret: 'kfsdjfkldsflkdsngklvazfldsçgnmkkodsaofjxçl',
 })
 
 app.register(serverRoutes);
