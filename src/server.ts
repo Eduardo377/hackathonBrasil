@@ -21,5 +21,5 @@ app
     host: "0.0.0.0",
   })
   .then(() => {
-    console.log(`🚀 HTTP server running on port http://localhost:${env.API_PORT}`);
+    console.log(`🚀 HTTP server running on port https://hackathon-brasil.vercel.app/${env.API_PORT}`);
   });

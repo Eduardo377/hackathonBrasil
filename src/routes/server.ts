@@ -6,7 +6,7 @@ import { env } from "../infra/env";
 export async function serverRoutes(app: FastifyInstance) {
 
   app.get("/", async () => {
-    return `Hello World 🚀 HTTP server running on port http://localhost:${env.API_PORT}`;
+    return `Hello World 🚀 HTTP server running on port https://hackathon-brasil.vercel.app/${env.API_PORT}`;
   })
 
   app.get("/user", async () => {
