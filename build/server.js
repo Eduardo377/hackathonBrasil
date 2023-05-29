@@ -174,5 +174,5 @@ app.listen({
   port: env.API_PORT,
   host: "0.0.0.0"
 }).then(() => {
-  console.log(`\u{1F680} HTTP server running on port https://localhost:${env.API_PORT}`);
+  console.log(`Hello World \u{1F680} HTTP server running on port https://localhost:${env.API_PORT}`);
 });
