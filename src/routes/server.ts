@@ -1,12 +1,14 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { string, z } from "zod";
 import { prisma } from "../lib/prisma";
 import { env } from "../infra/env";
 
 export async function serverRoutes(app: FastifyInstance) {
 
-  app.get("/", async () => {
-    return `Hello World 🚀 HTTP server running on port https://localhost:/${env.API_PORT}`;
+  app.get("/", async ( request: FastifyRequest, replay: FastifyReply) => {
+    return  replay.status(200).send({
+      message:`Hello World! 🚀 HTTP server running on port https://localhost:/${env.API_PORT}! A aplicação está funcionando!`
+    })
   })
 
   app.get("/user", async () => {
