@@ -1,12 +1,10 @@
 "use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
@@ -15,14 +13,21 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+
+// src/server.ts
+var import_config2 = require("dotenv/config");
+var import_fastify = __toESM(require("fastify"));
+var import_cors = __toESM(require("@fastify/cors"));
 
 // src/routes/server.ts
-var server_exports = {};
-__export(server_exports, {
-  serverRoutes: () => serverRoutes
-});
-module.exports = __toCommonJS(server_exports);
 var import_zod2 = require("zod");
 
 // src/lib/prisma.ts
@@ -46,11 +51,11 @@ if (!getEnv.success) {
 var env = getEnv.data;
 
 // src/routes/server.ts
-async function serverRoutes(app) {
-  app.get("/", async () => {
-    return `Hello World \u{1F680} HTTP server running on port https://hackathon-brasil.vercel.app/${env.API_PORT}`;
+async function serverRoutes(app2) {
+  app2.get("/", async () => {
+    return `Hello World \u{1F680} HTTP server running on port https://localhost:/${env.API_PORT}`;
   });
-  app.get("/user", async () => {
+  app2.get("/user", async () => {
     const users = await prisma.user.findMany({
       orderBy: {
         createdAt: "asc"
@@ -64,7 +69,7 @@ async function serverRoutes(app) {
       };
     });
   });
-  app.get("/user/:id", async (request) => {
+  app2.get("/user/:id", async (request) => {
     const paramsSchema = import_zod2.z.object({
       id: (0, import_zod2.string)().uuid()
     });
@@ -76,7 +81,7 @@ async function serverRoutes(app) {
     });
     return user;
   });
-  app.post("/user", async (request) => {
+  app2.post("/user", async (request) => {
     const bodySchema = import_zod2.z.object({
       name: (0, import_zod2.string)(),
       login: (0, import_zod2.string)(),
@@ -106,7 +111,7 @@ async function serverRoutes(app) {
     const userCreatorSuccess = { login, email, name, cpf, dataNasc };
     return userCreatorSuccess;
   });
-  app.put("/user/:id", async (request) => {
+  app2.put("/user/:id", async (request) => {
     const paramsSchema = import_zod2.z.object({
       id: (0, import_zod2.string)().uuid()
     });
@@ -142,7 +147,7 @@ async function serverRoutes(app) {
     });
     return user;
   });
-  app.delete("/user/:id", async (request) => {
+  app2.delete("/user/:id", async (request) => {
     const paramsSchema = import_zod2.z.object({
       id: (0, import_zod2.string)().uuid()
     });
@@ -154,7 +159,20 @@ async function serverRoutes(app) {
     });
   });
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  serverRoutes
+
+// src/server.ts
+var import_jwt = __toESM(require("@fastify/jwt"));
+var app = (0, import_fastify.default)();
+app.register(import_jwt.default, {
+  secret: "kfsdjfkldsflkdsngklvazflds\xE7gnmkkodsaofjx\xE7l"
+});
+app.register(import_cors.default, {
+  origin: true
+});
+app.register(serverRoutes);
+app.listen({
+  port: env.API_PORT,
+  host: "0.0.0.0"
+}).then(() => {
+  console.log(`\u{1F680} HTTP server running on port https://localhost:${env.API_PORT}`);
 });

@@ -48,7 +48,7 @@ var env = getEnv.data;
 // src/routes/server.ts
 async function serverRoutes(app) {
   app.get("/", async () => {
-    return `Hello World \u{1F680} HTTP server running on port https://hackathon-brasil.vercel.app/${env.API_PORT}`;
+    return `Hello World \u{1F680} HTTP server running on port https://localhost:/${env.API_PORT}`;
   });
   app.get("/user", async () => {
     const users = await prisma.user.findMany({

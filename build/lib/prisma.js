@@ -17,25 +17,17 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/infra/env.ts
-var env_exports = {};
-__export(env_exports, {
-  env: () => env
+// src/lib/prisma.ts
+var prisma_exports = {};
+__export(prisma_exports, {
+  prisma: () => prisma
 });
-module.exports = __toCommonJS(env_exports);
-var import_config = require("dotenv/config");
-var import_zod = require("zod");
-var envSchema = import_zod.z.object({
-  API_PORT: import_zod.z.coerce.number()
+module.exports = __toCommonJS(prisma_exports);
+var import_client = require("@prisma/client");
+var prisma = new import_client.PrismaClient({
+  log: ["query"]
 });
-var getEnv = envSchema.safeParse(process.env);
-if (!getEnv.success) {
-  const errorMessage = "load environment failed";
-  console.error(errorMessage, getEnv.error.format());
-  throw new Error(errorMessage);
-}
-var env = getEnv.data;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  env
+  prisma
 });
