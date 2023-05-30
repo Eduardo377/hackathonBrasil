@@ -47,8 +47,12 @@ var env = getEnv.data;
 
 // src/routes/server.ts
 async function serverRoutes(app) {
-  app.get("/", async () => {
-    return `Hello World \u{1F680} HTTP server running on port https://localhost:/${env.API_PORT}`;
+  app.get("/", async (request, replay) => {
+    return replay.status(200).send({
+      message: `Hello World! 
+      \u{1F680} HTTP server running on port https://localhost:/${env.API_PORT}
+      A aplica\xE7\xE3o est\xE1 funcionando!`
+    });
   });
   app.get("/user", async () => {
     const users = await prisma.user.findMany({
