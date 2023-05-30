@@ -49,9 +49,7 @@ var env = getEnv.data;
 async function serverRoutes(app) {
   app.get("/", async (request, replay) => {
     return replay.status(200).send({
-      message: `Hello World! 
-      \u{1F680} HTTP server running on port https://localhost:/${env.API_PORT}
-      A aplica\xE7\xE3o est\xE1 funcionando!`
+      message: `Hello World! \u{1F680} HTTP server running on port https://localhost:/${env.API_PORT}! A aplica\xE7\xE3o est\xE1 funcionando!`
     });
   });
   app.get("/user", async () => {
