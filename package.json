@@ -7,7 +7,7 @@
         "eslint-plugin-n": "16.13.0"
     },
     "scripts": {
-        "postinstall": "prisma generate",
+        "postinstall": "prisma generate && vercel build",
         "prebuild": "tsc --noEmit",
         "build": "tsup src --out-dir build",
         "start": "npm run dev",
